@@ -9,9 +9,9 @@ Create one publication-ready WeChat daily-sign image in two explicit stages. The
 
 ## Inputs and deliverables
 
-Accept `date` (`YYYY-MM-DD`, default to today), plus optional `topic`, `avoid_topics`, and `notes`. Read [brand-config.md](references/brand-config.md) and [template-contract.md](references/template-contract.md) before proposing or rendering work.
+Accept `date` (`YYYY-MM-DD`, default to today), plus optional `topic`, `avoid_topics`, and `notes`. Read [brand-config.md](references/brand-config.md), [editorial-policy.md](references/editorial-policy.md), [typography.md](references/typography.md), and [template-contract.md](references/template-contract.md) before proposing or rendering work.
 
-Stage 1 delivers exactly ten candidates. For each, provide the proposed display copy, person/event, Chinese wording provenance, connection to the target date, two independent authoritative source URLs, and image/license decision. Do not invent a quote, translation, date, source, or licence. Exclude candidates that cannot satisfy all required evidence.
+Stage 1 delivers exactly ten candidates in the structured fields defined by `references/editorial-policy.md`. For each, provide the proposed display copy, person/event, Chinese wording provenance, connection to the target date, two independent authoritative source URLs, and image/license decision. Do not invent a quote, translation, date, source, or licence. Exclude candidates that cannot satisfy all required evidence.
 
 Stage 2 begins only after the employee explicitly selects a candidate and approves any changed wording. Prepare a payload conforming to `references/render-payload.example.json`, preflight the template, then open `assets/photopea-runner.html` in a browser. Select the bundled PSD template and payload there; the runner downloads an editable PSD, PNG, and manifest. It does not require Photoshop to run.
 
@@ -19,8 +19,9 @@ Stage 2 begins only after the employee explicitly selects a candidate and approv
 
 - Start with statutory/international/industry anniversaries, then historically meaningful events if no suitable observance exists.
 - Prefer primary archives, publishers, museums, universities, foundations, and official institutions. Two sources must be genuinely independent; a model answer is never a source.
+- Treat search engines and encyclopedias as discovery aids only; verify every retained claim against the documentary evidence required in `references/editorial-policy.md`.
 - Use only public-domain, employee-owned, licensed, or self-generated visual assets. Record URL, licence, and rationale. If this cannot be established, use an approved non-external template treatment or reject the candidate.
-- Keep display copy within the template limits. Ask for an edit rather than reducing type below the configured minimum or creating an unapproved extra page.
+- Keep display copy within the template limits and the fixed point sizes in `references/typography.md`. Ask for an edit rather than reducing type or creating an unapproved extra page.
 - Do not render, export, or imply publication approval before human selection. Never publish to a WeChat account.
 
 ## Template and rendering

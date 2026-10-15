@@ -26,6 +26,10 @@ Optional groups may be named `riqian.logo` and `riqian.decoration`. Their visibi
 
 The existing brand layer, `关注睿丛咨询 从生活中炼金`, is preserved. The runner replaces only the mapped fields and retains each as a native text layer in the returned PSD.
 
+## Fixed typography
+
+Apply the mandatory font families and point sizes in [typography.md](typography.md). The weekday heading and source/attribution may share one native text layer because both use 微软雅黑 Light at 19.1 pt. Keep the quote and `助力行业先锋` footer independently editable.
+
 ## Recommended one-time normalization in Photoshop
 
 1. Duplicate the original PSD before any editing and preserve it under `assets/`.
