@@ -27,7 +27,9 @@ Stage 2 begins only after the employee explicitly selects a candidate and approv
 
 ## PowerPoint delivery
 
-Generate a single editable `.pptx` directly; do not create or convert a Keynote file. Before exporting, verify the required fonts in `references/typography.md` are installed. On macOS, when any is missing and the employee has authorized it, run `scripts/install_fonts_macos.sh` to install the bundled company fonts into the employee's `~/Library/Fonts`, then verify again. The script never replaces an existing file. Otherwise stop and report the exact missing font. Never accept font substitution.
+Generate a single editable `.pptx` directly; do not create or convert a Keynote file. Before exporting, verify the required fonts in `references/typography.md` are installed. If missing, request authorization once, then run `scripts/install_fonts_macos.sh` on macOS or `powershell -ExecutionPolicy Bypass -File scripts/install_fonts_windows.ps1` on Windows. Both install only bundled company fonts for the current user and never overwrite existing files. Restart PowerPoint, verify again, and stop if any required font remains unavailable. Never accept font substitution.
+
+Use `scripts/generate_pptx.mjs` for every production file. Give it an approved JSON file matching `references/render-input.example.json`, set `RIQIAN_NODE_MODULES` to Codex's bundled Node modules directory and `RIQIAN_PYTHON` to its bundled Python executable, then run `node scripts/generate_pptx.mjs <approved-copy.json> [output.pptx]`. The generator embeds the fixed assets and runs `verify_pptx_contract.py` before delivery.
 
 Release only after the mandatory package-level check in `references/typography.md` passes. It must verify every run's font family, bold flag, exact point size, tracking and leading where specified, plus all six unrounded source guides. A preview alone is not evidence of compliance.
 
