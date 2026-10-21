@@ -1,27 +1,61 @@
-# riqian-generator-skill
+# 睿丛咨询日签生成 Skill
 
-面向微信公众号日签的 Codex skill：先生成带双来源核验的内容候选，人工确认后输出可编辑 PowerPoint（`.pptx`）文件和来源记录。
+这是给睿丛咨询公众号日签使用的小工具。安装后，在 Codex 里输入 `$riqian`，就可以从“找历史上的今天、核验金句出处”到“生成可编辑 PPTX 日签”完成整套流程。
 
-## 使用
+它适合不懂设计软件或代码的同事使用：不需要 Photoshop、Photopea 或 Keynote。
 
-将本仓库中的 `riqian/` 目录复制到本机 Codex skills 目录后，在对话中使用 `$riqian`。skill 默认分为两步：
+## 它能做什么
 
-1. 生成 10 条具有两个独立权威来源的候选，等待人工选择。
-2. 确认后从随附的 v23 PowerPoint 母版生成新的可编辑 `.pptx` 文件。
+- 为指定日期整理 10 条可选日签内容；每条都包含宜语、金句、出处、人物信息和对应的历史事件。
+- 对候选内容做出处和人物信息的核验，避免常见的误传金句。
+- 在你选定文案后，生成一份可编辑的 PowerPoint（`.pptx`）日签文件。
+- 自动使用睿丛咨询的固定母版、logo、二维码、底部文案、字体字号和版式。
+- 自动匹配 Jan–Dec 月份样式，并校正月份、斜杠和日期之间的间距。
 
-模板与详细约束在 [`riqian/`](riqian/) 内。编辑前须核验 Bell MT Bold、仿宋、微软雅黑 Light；缺少字体时，经员工授权后在 macOS 运行 `riqian/scripts/install_fonts_macos.sh`，在 Windows 运行 `riqian/scripts/install_fonts_windows.ps1`。两者都只安装到当前用户目录，不会覆盖已有字体。安装后重启 PowerPoint；不得接受字体自动替换。
+## 安装（复制给 Codex 即可）
 
-## 一键生成
+在 Codex 新开一个对话，把下面这句话完整发送出去：
 
-确认文案后，按 `riqian/references/render-input.example.json` 填写字段。Codex 运行 `riqian/scripts/generate_pptx.mjs`，即可从 v23 母版直接生成新的可编辑 `.pptx`。月份由随附的 12 个 Bell MT 轮廓资产选择，`/` 和日期会随月份实际字形宽度进行固定的光学校正；不会因为不同电脑的字体渲染而漂移。交付前自动执行字体、字号、字距、行距和页眉位置的包级校验。
+> 请安装 GitHub skill：`CHUJUNGE/riqian-generator-skill`，路径是 `riqian`。
 
-## 包含内容
+Codex 会完成安装。安装完成后，请**新开下一轮对话**再使用它。
 
-- `riqian/assets/riqian-production-template-v23.pptx`：日常生产母版
-- `riqian/assets/riqian-template-10.15.psd`：归档视觉参照，不参与日常生产
-- `riqian/assets/months/`：12 个固定 Bell MT 月份轮廓资产
-- `riqian/assets/fonts/`：Bell MT Bold、仿宋、微软雅黑 Light 的公司提供字体
-- `riqian/assets/brand/`：logo、背景和二维码
-- `riqian/references/`：品牌、内容核验、字体、版式网格规范
-- `riqian/scripts/generate_pptx.mjs`：从已批准 JSON 直接生成并校验 PPTX
-- `riqian/scripts/install_fonts_macos.sh`、`install_fonts_windows.ps1`：当前用户字体安装器
+> 如果公司电脑不允许访问 GitHub，请联系项目维护人获取帮助。
+
+## 怎么用
+
+安装完成后，在 Codex 对话里直接输入，例如：
+
+> `$riqian 帮我做 2026-10-21 的日签`
+
+### 第一步：选内容
+
+Skill 会给出 10 条候选。你只需要回复选中的编号，例如：
+
+> 选 003
+
+如需修改文案，在生成文件前直接说明即可。
+
+### 第二步：生成文件
+
+确认文案后，回复：
+
+> 可以生成
+
+Skill 会检查电脑是否安装所需字体。若缺少字体，它会先询问你是否同意安装公司随附字体；同意后会只安装到当前电脑账户，不会覆盖已有字体。安装完成后按提示重启 PowerPoint，再继续生成。
+
+最后会交付一份 `{日期}-riqian.pptx` 文件。文件可在 PowerPoint 中打开和编辑；固定的品牌图形、二维码和页脚会保留不变。
+
+## 使用时请注意
+
+- 生成前一定要确认候选编号和文案。Skill 不会自行发布公众号。
+- 原文优先：为排版断行时不会改写、删减或拼接已确认的金句。
+- 如果只想要一条内容、不需要生成 PPTX，也可以直接说“只给我内容候选”。
+- 如需 PNG、修改母版、替换二维码或发布公众号，请单独说明；这些不在默认流程内。
+
+## 给维护人员的信息
+
+- Skill 名称：`$riqian`
+- GitHub 仓库：`https://github.com/CHUJUNGE/riqian-generator-skill`
+- 生产母版：`riqian/assets/riqian-production-template-v23.pptx`
+- 固定规范与素材均位于 `riqian/` 文件夹中。
