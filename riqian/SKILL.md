@@ -13,7 +13,7 @@ Accept `date` (`YYYY-MM-DD`, default to today), plus optional `topic`, `avoid_to
 
 Stage 1 delivers exactly ten candidates in the structured fields defined by `references/editorial-policy.md`. For each, provide the proposed display copy, person/event, Chinese wording provenance, connection to the target date, two independent authoritative source URLs, and image/license decision. Do not invent a quote, translation, date, source, or licence. Exclude candidates that cannot satisfy all required evidence.
 
-Stage 2 begins only after the employee explicitly selects a candidate and approves any changed wording. Use `assets/riqian-template-10.15.psd` as the visual reference and `references/layout-grid.md` as the exact coordinate contract. Build the editable text and image objects directly in PowerPoint. Keep the brand artwork, QR code, layout, fixed guides, and fixed footer intact. Save a new `.pptx` file named `{date}-riqian.pptx`.
+Stage 2 begins only after the employee explicitly selects a candidate and approves any changed wording. Use `assets/riqian-production-template-v23.pptx` as the only production master and `references/layout-grid.md` as the exact coordinate contract. Populate its named editable objects; preserve the brand artwork, QR code, layout, fixed guides, and fixed footer. The month is selected from the bundled, fixed Bell MT outline assets and is part of every render. Save a new `.pptx` file named `{date}-riqian.pptx`.
 
 ## Editorial and safety gates
 
@@ -29,7 +29,7 @@ Stage 2 begins only after the employee explicitly selects a candidate and approv
 
 Generate a single editable `.pptx` directly; do not create or convert a Keynote file. Before exporting, verify the required fonts in `references/typography.md` are installed. If missing, request authorization once, then run `scripts/install_fonts_macos.sh` on macOS or `powershell -ExecutionPolicy Bypass -File scripts/install_fonts_windows.ps1` on Windows. Both install only bundled company fonts for the current user and never overwrite existing files. Restart PowerPoint, verify again, and stop if any required font remains unavailable. Never accept font substitution.
 
-Use `scripts/generate_pptx.mjs` for every production file. Give it an approved JSON file matching `references/render-input.example.json`, set `RIQIAN_NODE_MODULES` to Codex's bundled Node modules directory and `RIQIAN_PYTHON` to its bundled Python executable, then run `node scripts/generate_pptx.mjs <approved-copy.json> [output.pptx]`. The generator embeds the fixed assets and runs `verify_pptx_contract.py` before delivery.
+Use `scripts/generate_pptx.mjs` for every production file. Give it an approved JSON file matching `references/render-input.example.json`, set `RIQIAN_NODE_MODULES` to Codex's bundled Node modules directory, then run `node scripts/generate_pptx.mjs <approved-copy.json> [output.pptx]`. The generator starts from the v23 production master, selects the matching month outline, calculates the header optical spacing, and retains the template's fixed artwork.
 
 Release only after the mandatory package-level check in `references/typography.md` passes. It must verify every run's font family, bold flag, exact point size, tracking and leading where specified, plus all six unrounded source guides. A preview alone is not evidence of compliance.
 

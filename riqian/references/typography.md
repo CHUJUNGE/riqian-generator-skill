@@ -6,9 +6,9 @@ This is a non-negotiable production specification supplied by 睿丛咨询. Do n
 
 | Element | Typeface / weight | Size (pt) | Leading | Tracking | Horizontal scale | Non-negotiable rule |
 | --- | --- | ---: | ---: | ---: | ---: | --- |
-| English month | **Bell MT**, **Bold** | **72.55** | Automatic | 0 | **71%** | Three-letter English month only. In PowerPoint, write the font family as `Bell MT` and apply Bold; never use `Bell MT Bold` as the family name. |
+| English month | **Bell MT**, **Bold** | **72.55** | Automatic | 0 | **71%** | Three-letter English month only. Use the bundled month outline asset; do not retype it in PowerPoint. |
 | Numeric day | 仿宋, Regular | **50.77** | Automatic | 0 | **91.669%** | Digits only. |
-| `/` separator | 仿宋, Regular | **50.77** | Automatic | 0 | 100% | Fixed separator; do not merge it into the month layer. |
+| `/` separator | 仿宋, Regular | **22.78** | Automatic | 0 | 100% | A separate shape; never merge it into the month or date layer. |
 | Metadata block: weekday, 宜语, historical-on-this-day event | 微软雅黑 Light | **19.1** | **34.39 pt** | **0** | **106.509%** | One three-line metadata block, in this order. |
 | Quote | 微软雅黑 Light | **36** | Automatic | **Adobe tracking 20** | 100% | Manual semantic line breaks only. |
 | Source, author, identity, lifetime/background | 微软雅黑 Light | **19.1** | Automatic | 0 | 100% | Each item remains editable. |
@@ -18,9 +18,9 @@ This is a non-negotiable production specification supplied by 睿丛咨询. Do n
 
 PowerPoint is the production deliverable, so the values above must be written into each editable run, not merely inherited from a theme.
 
-- Required run sizes in OOXML are: month `sz="7255"`; date and `/` `sz="5077"`; metadata/source/author/identity/lifetime `sz="1910"`; quote `sz="3600"`; footer `sz="1400"`.
-- Month runs must record `typeface="Bell MT"` and `b="1"`. This is the correct editable equivalent of the supplied **Bell MT Bold.ttf** asset.
-- Preserve the PSD horizontal scales exactly: month **71%**, numeric day **91.669%**, and metadata block **106.509%**. DrawingML does not support a run-level horizontal scale; place the editable text shape inside a group whose horizontal extent applies that exact factor. Never approximate this by changing the specified point size.
+- Required editable-run sizes in OOXML are: date `sz="5077"`; `/` `sz="2278"`; metadata/source/author/identity/lifetime `sz="1910"`; quote `sz="3600"`; footer `sz="1400"`.
+- The month is a fixed 4× PNG outline made from the supplied **Bell MT Bold.ttf**, at 72.55pt and 71% horizontal scale. This deliberately avoids host-specific font rendering. It is not an editable text run; all other variable copy remains editable.
+- The month outline preserves its PSD **71%** horizontal scale. The approved v23 master fixes the day and metadata boxes themselves; do not apply a second PowerPoint scaling transform or change their specified point sizes.
 - The quote's Adobe tracking 20 maps to `spc="72"` (0.72 pt at 36 pt). Footer tracking 200 maps to `spc="280"` (2.8 pt at 14 pt).
 - The metadata block leading must be 34.39 pt. The footer leading must be an explicit `a:spcPts val="1800"`; do not leave it as a percentage or an automatic setting.
 - Use automatic leading for the month, numeric date, quote, source, author, identity, and lifetime. Do not invent a numeric leading value for those fields.
@@ -40,6 +40,17 @@ PowerPoint is the production deliverable, so the values above must be written in
 - Historical information is always a verified historical-on-this-day event that meaningfully relates to the chosen quote and 宜语. Do not place a no-event placeholder in the layout.
 - Quote line breaks are intentional, manual line breaks. Preserve the approved original wording and punctuation exactly: do not delete, rewrite, splice, or otherwise alter either for layout. Break at a self-contained semantic unit rather than letting a sentence run continuously into the next line or leaving a grammatical fragment alone. A line containing only one or two Chinese characters is prohibited; move only the line break. If no compliant arrangement exists, replace the entire candidate with another verified quotation.
 - Every displayed quote line must end without punctuation. Meet this rule by choosing a verified quotation whose original form permits it; never remove source punctuation to make a line fit.
+
+## Header optical-spacing contract
+
+Use `assets/riqian-production-template-v23.pptx` as the only production master. The month, `/`, and date are three independent objects. Their visual spacing is calculated from the actual month-outline width, never from a text-box width:
+
+- month artwork starts at `x=117.438`, `y=75` on the 2403 × 4918 source canvas;
+- `/` stays at `y=226`, date stays at `y=119` so their bottoms align as in the approved template;
+- after each month outline's measured right edge, maintain a **63.796px** optical gap before `/`; the date begins **82px** after the `/` shape's x position;
+- the premeasured widths for Jan–Dec are encoded in `scripts/generate_pptx.mjs`. Do not set one universal slash x-coordinate, and do not derive spacing from PowerPoint's text box bounds.
+
+The `/`–month–date unit must be reviewed as rendered artwork before adopting a new master. If a brand owner revises it, update the master, month assets, measurements, generator, and this contract together.
 
 ## Mandatory preflight and release check
 

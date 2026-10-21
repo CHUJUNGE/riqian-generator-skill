@@ -27,7 +27,7 @@ Rules:
 
 - A licence claim needs its source URL or an internal approval reference in the manifest.
 - Do not use fonts unless the company has a valid licence for the required use. Preflight may identify absent fonts but cannot grant rights.
-- Use `assets/riqian-template-10.15.psd` as the visual production reference. Save each approved daily sign as a new PowerPoint file; do not overwrite the reference asset.
+- Use `assets/riqian-production-template-v23.pptx` as the production master and `assets/riqian-template-10.15.psd` only as its archival visual reference. Save each approved daily sign as a new PowerPoint file; do not overwrite either reference asset.
 - Brand owner should add official logo files and approved font details to `assets/` before production.
 - The checked-in logo, background and QR code are supplied by 睿丛咨询 for this skill. Do not replace, recolor, crop, or reuse them outside an approved 睿丛咨询 daily-sign layout.
 - Read `references/typography.md` before editing or rendering a daily sign. Its typefaces and point sizes are fixed production rules.
