@@ -40,12 +40,24 @@ function replaceText(xml, name, lines) {
   const shape = xml.slice(start, end);
   const bodyStart = shape.indexOf('<p:txBody>');
   const bodyEnd = shape.indexOf('</p:txBody>');
-  const firstParagraphStart = shape.indexOf('<a:p xmlns', bodyStart);
-  const firstParagraphEnd = shape.indexOf('</a:p>', firstParagraphStart);
-  if (bodyStart < 0 || bodyEnd < 0 || firstParagraphStart < 0 || firstParagraphEnd < 0) throw new Error(`Template ${name} has no editable paragraph`);
-  const opening = shape.slice(bodyStart, firstParagraphStart);
-  const paragraph = shape.slice(firstParagraphStart, firstParagraphEnd + 6);
-  const rebuilt = `${opening}${lines.map(line => paragraph.replace(/<a:t>.*?<\/a:t>/, `<a:t>${xmlEscape(line)}</a:t>`)).join('')}</p:txBody>`;
+  if (bodyStart < 0 || bodyEnd < 0) throw new Error(`Template ${name} has no editable text body`);
+
+  // Text placeholders in the master can contain several runs. Replacing only
+  // the first <a:t> leaves the remaining sample copy in the exported slide.
+  // Preserve the first paragraph's paragraph and run properties, but rebuild
+  // every paragraph so each approved line has exactly one text run.
+  const body = shape.slice(bodyStart, bodyEnd);
+  const firstParagraphMatch = /<a:p(?:\s[^>]*)?>[\s\S]*?<\/a:p>/.exec(body);
+  if (!firstParagraphMatch) throw new Error(`Template ${name} has no editable paragraph`);
+  const paragraph = firstParagraphMatch[0];
+  const paragraphTag = /^<a:p(?:\s[^>]*)?>/.exec(paragraph)?.[0];
+  const paragraphProperties = /<a:pPr(?:\s[^>]*)?(?:\/>|>[\s\S]*?<\/a:pPr>)/.exec(paragraph)?.[0] ?? '';
+  const runProperties = /<a:rPr(?:\s[^>]*)?(?:\/>|>[\s\S]*?<\/a:rPr>)/.exec(paragraph)?.[0] ?? '';
+  if (!paragraphTag || !runProperties) throw new Error(`Template ${name} has no editable run formatting`);
+
+  const bodyPrefix = shape.slice(bodyStart, bodyStart + firstParagraphMatch.index);
+  const replacementParagraphs = lines.map(line => `${paragraphTag}${paragraphProperties}<a:r>${runProperties}<a:t>${xmlEscape(line)}</a:t></a:r></a:p>`).join('');
+  const rebuilt = `${bodyPrefix}${replacementParagraphs}</p:txBody>`;
   return xml.slice(0, start) + shape.slice(0, bodyStart) + rebuilt + shape.slice(bodyEnd + 11) + xml.slice(end);
 }
 function moveShape(xml, name, sourceX, sourceY) {
@@ -93,3 +105,4 @@ await fs.writeFile(output, await zip.generateAsync({ type: 'nodebuffer', compres
 const python = process.env.RIQIAN_PYTHON ?? (process.platform === 'win32' ? 'python' : 'python3');
 await promisify(execFile)(python, [path.join(here, 'verify_pptx_contract.py'), output]);
 console.log(output);
+
