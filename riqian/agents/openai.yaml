@@ -1,6 +1,6 @@
 interface:
   display_name: "日签生产"
-  short_description: "核验日签内容并交付可编辑 PSD 与 PNG"
+  short_description: "核验日签内容并交付可编辑 PowerPoint"
   default_prompt: "Use $riqian to prepare ten verified daily-sign candidates for 2026-10-15."
 policy:
   allow_implicit_invocation: true
